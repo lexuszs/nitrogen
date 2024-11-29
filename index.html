@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nitro Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #9b59b6;
+        }
+        button {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #8e44ad;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .valid {
+            color: #2ecc71;
+        }
+        .invalid {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nitro Generator</h1>
+    <button onclick="generateNitroCodes()">Generate Nitro Codes</button>
+    <div id="result" class="result"></div>
+
+    <script>
+        async function generateNitroCodes() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = "Generating codes...";
+
+            // Replace with your serverless API endpoint
+            const response = await fetch('https://your-vercel-api-url/api/generate?num_codes=10');
+            const data = await response.json();
+
+            // Display valid codes
+            if (data.valid_codes.length > 0) {
+                resultDiv.innerHTML = "<h3>Valid Codes:</h3>";
+                data.valid_codes.forEach(code => {
+                    resultDiv.innerHTML += `<p class="valid">${code}</p>`;
+                });
+            }
+
+            // Display invalid codes
+            if (data.invalid_codes.length > 0) {
+                resultDiv.innerHTML += "<h3>Invalid Codes:</h3>";
+                data.invalid_codes.forEach(code => {
+                    resultDiv.innerHTML += `<p class="invalid">${code}</p>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
